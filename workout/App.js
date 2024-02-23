@@ -1,20 +1,59 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { ExerciseProvider } from './components/ExerciseContext';
+import AddExerciseScreen from './screens/AddExerciseScreen';
+import WorkoutListScreen from './screens/WorkoutListScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import { StatusBar } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ExerciseProvider>
+      <NavigationContainer>
+        <StatusBar barStyle="light-content" backgroundColor="#ffffff" />
+        <Tab.Navigator
+          initialRouteName="AddExercise"
+          screenOptions={{
+            activeTintColor: '#5cc3ff',
+            inactiveTintColor: '#9a9a9a',
+          }}
+        >
+          <Tab.Screen
+            name="AddExercise"
+            component={AddExerciseScreen}
+            options={{
+              tabBarLabel: 'Add Exercise',
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="running" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="WorkoutList"
+            component={WorkoutListScreen}
+            options={{
+              tabBarLabel: 'Workout List',
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="list" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Settings"
+            component={SettingsScreen}
+            options={{
+              tabBarLabel: 'Settings',
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="cogs" size={size} color={color} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </ExerciseProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
