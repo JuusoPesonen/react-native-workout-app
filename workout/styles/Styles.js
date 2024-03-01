@@ -143,7 +143,7 @@ const Styles = StyleSheet.create({
   },
   sportTypeButtonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginVertical: Constants.margin10,
   },
   sportTypeButton: {
@@ -155,7 +155,9 @@ const Styles = StyleSheet.create({
   
   sportTypeButtonText: {
     color: 'white',
+    marginLeft: 5
   },
+
   sportTypeHeaderText: {
     fontSize: Constants.fontSize20,
     fontWeight: 'bold',

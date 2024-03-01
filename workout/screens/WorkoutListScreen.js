@@ -3,11 +3,17 @@ import { View, Text, FlatList, TouchableOpacity, ScrollView } from 'react-native
 import { ExerciseContext } from '../components/ExerciseContext.js';
 import { Styles, Constants } from '../styles/Styles.js';
 import { Card } from 'react-native-paper';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 const WorkoutListScreen = ({ navigation }) => {
   const { workouts, distanceUnit, deleteWorkout } = useContext(ExerciseContext);
   const [selectedSportType, setSelectedSportType] = useState(null);
+
+  const workoutTypes = [
+    { name: 'Running', icon: 'directions-run' },
+    { name: 'Cycling', icon: 'directions-bike' },
+    { name: 'Swimming', icon: 'pool' },
+  ];
 
   // Organize workouts by sportType
   const workoutsByType = workouts.reduce((acc, workout) => {
@@ -18,7 +24,6 @@ const WorkoutListScreen = ({ navigation }) => {
     return acc;
   }, {});
 
-
   // Handle deleting a workout
   const handleDeleteWorkout = (workout) => {
     deleteWorkout(workout);
@@ -28,68 +33,68 @@ const WorkoutListScreen = ({ navigation }) => {
   const totalDistanceForSportType = (sportType) => {
     const distances = workoutsByType[sportType]
       ? workoutsByType[sportType].reduce((sum, workout) => {
-        const distanceValue = parseFloat(workout.distance);
+          const distanceValue = parseFloat(workout.distance);
 
-        if (!isNaN(distanceValue)) {
-          return sum + distanceValue;
-        } else {
-          return sum;
-        }
-      }, 0)
+          if (!isNaN(distanceValue)) {
+            return sum + distanceValue;
+          } else {
+            return sum;
+          }
+        }, 0)
       : 0;
+
     return distances.toFixed(2);
   };
 
   return (
     <View style={Styles.container}>
-      <ScrollView>
-        <View style={Styles.sportTypeButtonsContainer}>
-          {Object.keys(workoutsByType).map((sportType) => (
+      <FlatList
+        data={Object.entries(workoutsByType).map(([sportType, data]) => ({
+          title: sportType,
+          data: data,
+        }))}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View>
             <TouchableOpacity
-              key={sportType}
               style={[
                 Styles.sportTypeButton,
-                { backgroundColor: selectedSportType === sportType ? '#0fb3ff' : '#b6b3b3' },
+                { backgroundColor: selectedSportType === item.title ? '#0fb3ff' : '#b6b3b3' },
               ]}
-              onPress={() => setSelectedSportType(selectedSportType === sportType ? null : sportType)}
+              onPress={() => setSelectedSportType(selectedSportType === item.title ? null : item.title)}
             >
-              <Text style={Styles.sportTypeButtonText}>
-                {sportType}
-              </Text>
+              <MaterialIcons name={workoutTypes.find(type => type.name === item.title)?.icon} size={24} color="white" />
+              <Text style={Styles.sportTypeButtonText}>{item.title}</Text>
             </TouchableOpacity>
-          ))}
-        </View>
-
-        {selectedSportType !== null && (
-          <View>
-            <Text style={Styles.sportTypeHeaderText}>{selectedSportType}</Text>
             <Text style={Styles.totalDistanceText}>
-              Total Distance: {totalDistanceForSportType(selectedSportType)} {distanceUnit === 'km' ? 'km' : 'mi'}
+              Total Distance: {totalDistanceForSportType(item.title)} {distanceUnit === 'km' ? 'km' : 'mi'}
             </Text>
-            <FlatList
-              data={workoutsByType[selectedSportType]}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item, index }) => (
-                <Card style={Styles.workoutCard}>
-                  <Text style={Styles.sportTypeText}>{item.sportType}</Text>
-                  <Text style={[Styles.distanceText, { marginBottom: Constants.margin5 }]}>
-                    Distance: {item.distance} {distanceUnit === 'km' ? 'km' : 'mi'}
-                  </Text>
-                  <Text style={Styles.durationText}>Duration: {item.duration} minutes</Text>
-                  <Text style={Styles.dateText}>Workout Date: {item.date}</Text>
-                  <TouchableOpacity
-                    style={Styles.deleteButton}
-                    onPress={() => handleDeleteWorkout(item)}
-                  >
-                    <FontAwesome name="trash" size={24} color="black" />
-                    <Text style={Styles.deleteButtonText}>Remove</Text>
-                  </TouchableOpacity>
-                </Card>
-              )}
-            />
+            {selectedSportType === item.title && (
+              <FlatList
+                data={item.data}
+                keyExtractor={(workout, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <Card style={Styles.workoutCard}>
+                    <Text style={Styles.sportTypeText}>{item.sportType}</Text>
+                    <Text style={[Styles.distanceText, { marginBottom: Constants.margin5 }]}>
+                      Distance: {item.distance} {distanceUnit === 'km' ? 'km' : 'mi'}
+                    </Text>
+                    <Text style={Styles.durationText}>Duration: {item.duration} minutes</Text>
+                    <Text style={Styles.dateText}>Workout Date: {item.date}</Text>
+                    <TouchableOpacity
+                      style={Styles.deleteButton}
+                      onPress={() => handleDeleteWorkout(item)}
+                    >
+                      <FontAwesome name="trash" size={24} color="black" />
+                      <Text style={Styles.deleteButtonText}>Remove</Text>
+                    </TouchableOpacity>
+                  </Card>
+                )}
+              />
+            )}
           </View>
         )}
-      </ScrollView>
+      />
 
       {/* Navigation buttons */}
       <View style={Styles.navigationButtonsContainer}>

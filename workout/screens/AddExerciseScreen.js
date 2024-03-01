@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Styles, Constants } from '../styles/Styles.js';
 import { ExerciseContext } from '../components/ExerciseContext.js';
 import * as Font from 'expo-font';
-import { FlatList } from 'react-native-gesture-handler';
+//import { FlatList } from 'react-native-gesture-handler';
 
 // Adding workout types
 const workoutTypes = [
@@ -56,15 +56,16 @@ const AddExerciseScreen = ({ navigation }) => {
       }
     } catch (error) {
       console.error('Error converting distance:', error.message);
-      // Handle distance conversion error here
     }
   }, [distanceUnit]);
 
+  // Handle day press
   const handleDayPress = (date) => {
     setSelectedDate(date.dateString);
     setCalendarVisible(false);
   };
 
+  // Handle workout type press
   const handleWorkoutTypePress = (type) => {
     setSelectedWorkoutType(type);
   };
@@ -123,7 +124,6 @@ const AddExerciseScreen = ({ navigation }) => {
       }
     } catch (error) {
       console.error('Error converting distance:', error.message);
-      // Handle distance conversion error here
       return '';
     }
   };
