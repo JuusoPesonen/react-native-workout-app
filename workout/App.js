@@ -7,10 +7,22 @@ import WorkoutListScreen from './screens/WorkoutListScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import { StatusBar } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useFonts } from 'expo-font';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+
+  
+   // Load fonts
+   const [loaded] = useFonts({
+    LatoRegular: require('./assets/fonts/Lato-Regular.ttf'),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <ExerciseProvider>
       <NavigationContainer>

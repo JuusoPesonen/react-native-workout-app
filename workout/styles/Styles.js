@@ -10,12 +10,9 @@ const Styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight + 5,
     backgroundColor: '#e1cc7f',
   },
-
-  latoRegular: {
-    fontFamily: 'Lato-Regular',
-  },
   heading: {
     fontSize: 18,
+    fontFamily: 'LatoRegular',
     fontWeight: 'bold',
     marginTop: 10,
   },
@@ -34,6 +31,8 @@ const Styles = StyleSheet.create({
   },
   textInput: {
     height: 40,
+    fontSize: 16,
+    fontFamily: 'LatoRegular',
     borderColor: 'gray',
     backgroundColor: '#e5f6f4',
     borderWidth: 2,

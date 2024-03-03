@@ -4,7 +4,6 @@ import { Calendar } from 'react-native-calendars';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Styles, Constants } from '../styles/Styles.js';
 import { ExerciseContext } from '../components/ExerciseContext.js';
-import * as Font from 'expo-font';
 //import { FlatList } from 'react-native-gesture-handler';
 
 // Adding workout types
@@ -22,32 +21,7 @@ const AddExerciseScreen = ({ navigation }) => {
   const [selectedDate, setSelectedDate] = useState('');
   const [isCalendarVisible, setCalendarVisible] = useState(false);
   const [shouldConvertDistance, setShouldConvertDistance] = useState(true);
-  const [isFontLoaded, setIsFontLoaded] = useState(false);
 
-  // Load fonts
-  useEffect(() => {
-    async function loadFonts() {
-      try {
-        await Font.loadAsync({
-          'Lato-Regular': require('../assets/fonts/Lato-Regular.ttf'),
-        });
-        setIsFontLoaded(true);
-      } catch (error) {
-        console.error('Error loading fonts:', error.message);
-        // Handle font loading error here
-      }
-    }
-
-    loadFonts();
-  }, []);
-
-  useEffect(() => {
-    if (isFontLoaded) {
-      //console.log('Font is loaded');
-    }
-  }, [isFontLoaded]);
-
-  
   useEffect(() => {
     // Update distance input when the distanceUnit changes
     try {
@@ -133,7 +107,7 @@ const AddExerciseScreen = ({ navigation }) => {
 
   return (
     <View style={Styles.container}>
-      <Text style={[Styles.heading, isFontLoaded && { fontFamily: 'Lato-Regular' }]}>Choose Workout Type:</Text>
+      <Text style={Styles.heading}>Choose Workout Type:</Text>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         {workoutTypes.map((type) => (
           <TouchableOpacity
@@ -150,11 +124,11 @@ const AddExerciseScreen = ({ navigation }) => {
         ))}
       </View>
 
-      <Text style={[Styles.heading, { marginVertical: Constants.margin5 }, isFontLoaded && { fontFamily: 'Lato-Regular' }]}>
+      <Text style={[Styles.heading, { marginVertical: Constants.margin5 }]}>
         Distance ({unitLabel})
       </Text>
       <TextInput
-        style={[Styles.textInput, { marginBottom: Constants.margin5 }, isFontLoaded && { fontFamily: 'Lato-Regular' }]}
+        style={[Styles.textInput, { marginBottom: Constants.margin5 }]}
         keyboardType="numeric"
         value={distance}
         placeholder='Enter distance'
