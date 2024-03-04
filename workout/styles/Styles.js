@@ -43,6 +43,7 @@ const Styles = StyleSheet.create({
   },
   totalDistanceText: {
     fontSize: 16,
+    fontFamily: 'LatoRegular',
     fontWeight: 'bold',
     marginBottom: 10,
   },
@@ -76,6 +77,7 @@ const Styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+    fontFamily: 'LatoRegular',
     marginBottom: 10,
   },
   navigationButtonsContainer: {
