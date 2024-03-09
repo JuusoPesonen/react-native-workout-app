@@ -65,7 +65,7 @@ const Styles = StyleSheet.create({
   },
   dateText: {
     marginTop: 5,
-    color: '#888',
+    color: '#747373',
   },
   radioGroup: {
     flexDirection: 'row',
